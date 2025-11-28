@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: mean-mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin123
+      MONGO_INITDB_DATABASE: meandb
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - mean-network
+
+  backend:
+    build: ./backend
+    container_name: mean-backend
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      MONGODB_URI: mongodb://admin:admin123@mongodb:27017/meandb?authSource=admin
+      PORT: 3000
+      NODE_ENV: production
+    depends_on:
+      - mongodb
+    networks:
+      - mean-network
+
+  frontend:
+    build: ./frontend
+    container_name: mean-frontend
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - mean-network
+
+volumes:
+  mongodb_data:
+    driver: local
+
+networks:
+  mean-network:
+    driver: bridge
