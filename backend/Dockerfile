@@ -1,21 +1,7 @@
-# backend/Dockerfile
 FROM node:18-alpine
-
-# Create app directory
-WORKDIR /usr/src/app
-
-# Install app dependencies
+WORKDIR /app
 COPY package*.json ./
-RUN npm ci --only=production
-
-# Copy source
+RUN npm install
 COPY . .
-
-# Build step if needed (e.g. TypeScript)
-# RUN npm run build
-
-ENV NODE_ENV=production
 EXPOSE 3000
-
-CMD ["node", "server.js"]
-# or ["node", "app.js"] depending on your entry file
+CMD ["npm", "start"]
