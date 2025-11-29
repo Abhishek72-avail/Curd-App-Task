@@ -1,17 +1,21 @@
 <div>
-  <nav class="navbar navbar-expand navbar-dark bg-dark">
-    <a href="#" class="navbar-brand">DD Task</a>
-    <div class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a routerLink="tutorials" class="nav-link">Tutorials</a>
-      </li>
-      <li class="nav-item">
-        <a routerLink="add" class="nav-link">Add</a>
-      </li>
+  <nav class="navbar navbar-expand navbar-light">
+    <div class="container">
+      <a href="#" class="navbar-brand">📚 Tutorial Manager</a>
+      <div class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a routerLink="tutorials" class="nav-link">📖 Browse</a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="add" class="nav-link">➕ Create</a>
+        </li>
+      </div>
     </div>
   </nav>
 
-  <div class="container mt-3">
-    <router-outlet></router-outlet>
+  <div class="container">
+    <div class="main-container">
+      <router-outlet></router-outlet>
+    </div>
   </div>
 </div>

@@ -1,0 +1,35 @@
+.navbar {
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--primary-color) !important;
+}
+
+.nav-link {
+  color: var(--text-primary) !important;
+  font-weight: 500;
+  margin: 0 0.5rem;
+  border-radius: 6px;
+  padding: 0.5rem 1rem !important;
+  transition: all 0.2s ease;
+}
+
+.nav-link:hover {
+  background: var(--primary-color);
+  color: white !important;
+}
+
+.main-container {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  margin: 2rem auto;
+  padding: 2rem;
+  max-width: 1200px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}

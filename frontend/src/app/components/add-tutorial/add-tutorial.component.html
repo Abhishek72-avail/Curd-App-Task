@@ -1,35 +1,56 @@
-<div>
-  <div class="submit-form">
+<div class="form-container">
+  <div class="form-card">
     <div *ngIf="!submitted">
-      <div class="form-group">
-        <label for="title">Title</label>
-        <input
-          type="text"
-          class="form-control"
-          id="title"
-          required
-          [(ngModel)]="tutorial.title"
-          name="title"
-        />
+      <div class="form-header">
+        <h2>✨ Create New Tutorial</h2>
+        <p>Share your knowledge with the community</p>
       </div>
 
-      <div class="form-group">
-        <label for="description">Description</label>
-        <input
-          class="form-control"
-          id="description"
-          required
-          [(ngModel)]="tutorial.description"
-          name="description"
-        />
-      </div>
+      <form>
+        <div class="form-group">
+          <label class="form-label" for="title">📝 Tutorial Title</label>
+          <input
+            type="text"
+            class="form-control"
+            id="title"
+            placeholder="Enter an engaging title..."
+            required
+            [(ngModel)]="tutorial.title"
+            name="title"
+          />
+        </div>
 
-      <button (click)="saveTutorial()" class="btn btn-success">Submit</button>
+        <div class="form-group">
+          <label class="form-label" for="description">📄 Description</label>
+          <textarea
+            class="form-control"
+            id="description"
+            rows="4"
+            placeholder="Describe what readers will learn..."
+            required
+            [(ngModel)]="tutorial.description"
+            name="description"
+          ></textarea>
+        </div>
+
+        <button 
+          type="button"
+          (click)="saveTutorial()" 
+          class="submit-btn"
+          [disabled]="!tutorial.title || !tutorial.description"
+        >
+          🚀 Publish Tutorial
+        </button>
+      </form>
     </div>
 
-    <div *ngIf="submitted">
-      <h4>Tutorial was submitted successfully!</h4>
-      <button class="btn btn-success" (click)="newTutorial()">Add</button>
+    <div *ngIf="submitted" class="success-message">
+      <div class="success-icon">🎉</div>
+      <h4 class="success-title">Tutorial Published Successfully!</h4>
+      <p class="text-muted mb-4">Your tutorial is now available for everyone to learn from.</p>
+      <button class="add-another-btn" (click)="newTutorial()">
+        ➕ Create Another
+      </button>
     </div>
   </div>
 </div>

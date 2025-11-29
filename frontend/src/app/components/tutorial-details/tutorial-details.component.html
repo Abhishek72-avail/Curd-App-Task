@@ -1,94 +1,116 @@
-<div *ngIf="viewMode; else editable">
-  <div *ngIf="currentTutorial.id">
-    <h4>Tutorial</h4>
-    <div>
-      <label><strong>Title:</strong></label> {{ currentTutorial.title }}
-    </div>
-    <div>
-      <label><strong>Description:</strong></label>
-      {{ currentTutorial.description }}
-    </div>
-    <div>
-      <label><strong>Status:</strong></label>
-      {{ currentTutorial.published ? "Published" : "Pending" }}
+<div class="details-card" *ngIf="viewMode; else editable">
+  <div *ngIf="currentTutorial?.id">
+    <div class="tutorial-header">
+      <h4 class="tutorial-title">📖 Tutorial Details</h4>
+      <span 
+        class="status-badge"
+        [class.status-published]="currentTutorial.published"
+        [class.status-pending]="!currentTutorial.published"
+      >
+        {{ currentTutorial.published ? "Published" : "Pending" }}
+      </span>
     </div>
 
-    <a
-      class="badge badge-warning"
-      routerLink="/tutorials/{{ currentTutorial.id }}"
-    >
-      Edit
-    </a>
+    <div class="tutorial-content">
+      <div class="content-label">Title</div>
+      <div class="content-text">{{ currentTutorial.title }}</div>
+      
+      <div class="content-label">Description</div>
+      <div class="content-text">{{ currentTutorial.description }}</div>
+    </div>
+
+    <div class="action-buttons">
+      <a
+        class="btn-action btn-edit"
+        routerLink="/tutorials/{{ currentTutorial.id }}"
+      >
+        ✏️ Edit
+      </a>
+    </div>
   </div>
 
-  <div *ngIf="!currentTutorial">
-    <br />
-    <p>Please click on a Tutorial...</p>
+  <div *ngIf="!currentTutorial" class="empty-state">
+    <div class="empty-icon">📚</div>
+    <p>Select a tutorial to view details</p>
   </div>
 </div>
 
 <ng-template #editable>
-  <div *ngIf="currentTutorial.id" class="edit-form">
-    <h4>Tutorial</h4>
-    <form>
-      <div class="form-group">
-        <label for="title">Title</label>
-        <input
-          type="text"
-          class="form-control"
-          id="title"
-          [(ngModel)]="currentTutorial.title"
-          name="title"
-        />
-      </div>
-      <div class="form-group">
-        <label for="description">Description</label>
-        <input
-          type="text"
-          class="form-control"
-          id="description"
-          [(ngModel)]="currentTutorial.description"
-          name="description"
-        />
+  <div class="details-card">
+    <div *ngIf="currentTutorial?.id" class="edit-form">
+      <div class="tutorial-header">
+        <h4 class="tutorial-title">✏️ Edit Tutorial</h4>
+        <span 
+          class="status-badge"
+          [class.status-published]="currentTutorial.published"
+          [class.status-pending]="!currentTutorial.published"
+        >
+          {{ currentTutorial.published ? "Published" : "Pending" }}
+        </span>
       </div>
 
-      <div class="form-group">
-        <label><strong>Status:</strong></label>
-        {{ currentTutorial.published ? "Published" : "Pending" }}
+      <form>
+        <div class="form-group">
+          <label class="form-label" for="title">Title</label>
+          <input
+            type="text"
+            class="form-control"
+            id="title"
+            [(ngModel)]="currentTutorial.title"
+            name="title"
+          />
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label" for="description">Description</label>
+          <textarea
+            class="form-control"
+            id="description"
+            rows="4"
+            [(ngModel)]="currentTutorial.description"
+            name="description"
+          ></textarea>
+        </div>
+      </form>
+
+      <div class="action-buttons">
+        <button
+          class="btn-action btn-publish"
+          *ngIf="!currentTutorial.published"
+          (click)="updatePublished(true)"
+        >
+          📢 Publish
+        </button>
+        
+        <button
+          class="btn-action btn-unpublish"
+          *ngIf="currentTutorial.published"
+          (click)="updatePublished(false)"
+        >
+          📝 Unpublish
+        </button>
+
+        <button
+          class="btn-action btn-update"
+          (click)="updateTutorial()"
+        >
+          💾 Update
+        </button>
+
+        <button 
+          class="btn-action btn-delete" 
+          (click)="deleteTutorial()"
+        >
+          🗑️ Delete
+        </button>
       </div>
-    </form>
 
-    <button
-      class="badge badge-primary mr-2"
-      *ngIf="currentTutorial.published"
-      (click)="updatePublished(false)"
-    >
-      UnPublish
-    </button>
-    <button
-      *ngIf="!currentTutorial.published"
-      class="badge badge-primary mr-2"
-      (click)="updatePublished(true)"
-    >
-      Publish
-    </button>
+      <div *ngIf="message" class="message">{{ message }}</div>
+    </div>
 
-    <button class="badge badge-danger mr-2" (click)="deleteTutorial()">
-      Delete
-    </button>
-
-    <button
-      type="submit"
-      class="badge badge-success mb-2"
-      (click)="updateTutorial()"
-    >
-      Update
-    </button>
-    <p>{{ message }}</p>
-  </div>
-
-  <div *ngIf="!currentTutorial.id">
-    <br />
-    <p>Cannot access this Tutorial...</p>
+    <div *ngIf="!currentTutorial?.id" class="empty-state">
+      <div class="empty-icon">⚠️</div>
+      <p>Cannot access this tutorial</p>
+    </div>
   </div>
 </ng-template>

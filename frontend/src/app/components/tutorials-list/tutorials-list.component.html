@@ -1,15 +1,16 @@
-<div class="list row">
-  <div class="col-md-8">
-    <div class="input-group mb-3">
-      <input
-        type="text"
-        class="form-control"
-        placeholder="Search by title"
-        [(ngModel)]="title"
-      />
-      <div class="input-group-append">
+<div class="row">
+  <div class="col-12">
+    <div class="search-section">
+      <h3 class="mb-3">🔍 Find Your Tutorial</h3>
+      <div class="input-group">
+        <input
+          type="text"
+          class="form-control search-input"
+          placeholder="Search by title..."
+          [(ngModel)]="title"
+        />
         <button
-          class="btn btn-outline-secondary"
+          class="btn search-btn"
           (click)="searchTitle()"
         >
           Search
@@ -17,23 +18,38 @@
       </div>
     </div>
   </div>
-  <div class="col-md-6">
-    <h4>Tutorials List</h4>
-    <ul class="list-group">
-      <li
-        class="list-group-item"
-        *ngFor="let tutorial of tutorials; let i = index"
-        [class.active]="i == currentIndex"
-        (click)="setActiveTutorial(tutorial, i)"
-      >
-        {{ tutorial.title }}
-      </li>
-    </ul>
+</div>
 
-    <button class="m-3 btn btn-sm btn-danger" (click)="removeAllTutorials()">
-      Remove All
-    </button>
+<div class="row">
+  <div class="col-md-6">
+    <div class="card tutorials-card">
+      <h4 class="section-title">
+        📚 Tutorials Collection
+        <span class="badge bg-primary">{{tutorials?.length || 0}}</span>
+      </h4>
+      
+      <div class="tutorials-list" style="max-height: 400px; overflow-y: auto;">
+        <div
+          class="tutorial-item"
+          *ngFor="let tutorial of tutorials; let i = index"
+          [class.active]="i == currentIndex"
+          (click)="setActiveTutorial(tutorial, i)"
+        >
+          <strong>{{ tutorial.title }}</strong>
+          <div class="text-muted small mt-1">{{ tutorial.description | slice:0:50 }}...</div>
+        </div>
+      </div>
+
+      <button 
+        class="remove-all-btn mt-3" 
+        (click)="removeAllTutorials()"
+        *ngIf="tutorials && tutorials.length > 0"
+      >
+        🗑️ Clear All
+      </button>
+    </div>
   </div>
+  
   <div class="col-md-6">
     <app-tutorial-details
       [viewMode]="true"
