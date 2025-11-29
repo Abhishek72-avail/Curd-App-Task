@@ -1,21 +1,23 @@
-# backend/Dockerfile
 FROM node:18-alpine
 
-# Create app directory
-WORKDIR /usr/src/app
+# Set working directory
+WORKDIR /app
 
-# Install app dependencies
+# Copy package files
 COPY package*.json ./
-RUN npm ci --only=production
 
-# Copy source
+# Install dependencies
+RUN npm install --omit=dev
+
+# Copy application source
 COPY . .
 
-# Build step if needed (e.g. TypeScript)
-# RUN npm run build
-
-ENV NODE_ENV=production
+# Expose port
 EXPOSE 3000
 
-CMD ["node", "server.js"]
-# or ["node", "app.js"] depending on your entry file
+# Health check (optional)
+HEALTHCHECK --interval=30s --timeout=3s \
+  CMD node -e "require('http').get('http://localhost:3000/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"
+
+# Start application
+CMD ["npm", "start"]
